@@ -21,27 +21,24 @@ orthanc.ExtendOrthancExplorer('''
 $('#study').live('pagebeforecreate', function() {
   var b = $('<a>')
       .attr('data-role', 'button')
-      .attr('href', '#')
       .attr('data-icon', 'search')
       .attr('data-theme', 'e')
       .text('Open in Radiant DICOM Viewer');
-
   b.insertBefore($('#study-delete').parent().parent());
-  b.click(function() {
     if ($.mobile.pageData) {
       $.ajax({
         url: '../studies/' + $.mobile.pageData.uuid,
         dataType: 'json',
         cache: false,
         success: function(study) {
-          var studyInstanceUid = study.MainDicomTags.StudyInstanceUID;
-          window.open('radiant://?n=pstv&v=0020000D&v=%22'  + studyInstanceUid + '%22');
+        studyInstanceUid = study.MainDicomTags.StudyInstanceUID;
+        b.attr('href', 'radiant://?n=pstv&v=0020000D&v=%22'  + studyInstanceUid + '%22')
         }
       });
     }
-  });
-});
 
+
+});
 
 /**
 Looks like 0020:000E requires defining study first with 0020:000D, might be dependant on the PACS
